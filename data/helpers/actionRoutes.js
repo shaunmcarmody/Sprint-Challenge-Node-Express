@@ -1,6 +1,13 @@
 const express = require('express');
 const db = require('./actionModel.js');
 
+const {
+    validateProjectId,
+    validateDescription,
+    descriptionLength,
+    validateNotes
+} = require('../../mw/index.js');
+
 const router = express.Router();
 
 router
@@ -13,14 +20,19 @@ router
             res.status(500).json({ error: "Error retrieving actions" });
         }
     })
-    .post(async (req, res) => {
-        const action = req.body;
-        try {
-            const resource = await db.insert(action);
-            res.status(201).json(resource);
-        } catch (err) {
-            res.status(500).json({ error: "Error inserting action" });
-        }
+    .post(
+        validateProjectId,
+        validateDescription,
+        descriptionLength,
+        validateNotes,
+        async (req, res) => {
+            const action = req.body;
+            try {
+                const resource = await db.insert(action);
+                res.status(201).json(resource);
+            } catch (err) {
+                res.status(500).json({ error: "Error inserting action" });
+            }
     });
 
 router
@@ -45,6 +57,7 @@ router
                 res.status(404).json({ error: "Action not found" });    
             }
         } catch (err) {
+            console.log(err);
             res.status(500).json({ error: "Error updating action" });
         }
     })

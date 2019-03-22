@@ -1,6 +1,11 @@
 const express = require('express');
 const db = require('./projectModel.js');
 
+const {
+    validateName,
+    validateDescription
+} = require('../../mw/index.js');
+
 const router = express.Router();
 
 router
@@ -13,14 +18,16 @@ router
             res.status(500).json({ error: "Error retrieving projects"});
         }
     })
-    .post(async (req, res) => {
-        const project = req.body;
-        try {
-            const resource = await dbinsert(project);
-            res.status(201).json(resource);
-        } catch (err) {
-            res.status(500).json({ error: "Error inserting project" });
-        }
+    .post(validateName,
+        validateDescription,
+        async (req, res) => {
+            const project = req.body;
+            try {
+                const resource = await dbinsert(project);
+                res.status(201).json(resource);
+            } catch (err) {
+                res.status(500).json({ error: "Error inserting project" });
+            }
     })
 
 router
@@ -45,6 +52,7 @@ router
                 res.status(404).json({ error: "Project not found" });    
             }
         } catch (err) {
+            console.log(err);
             res.status(500).json({ error: "Error updating project" });
         }
     })
