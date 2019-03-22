@@ -26,13 +26,24 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+    .json() middleware to handle json in the request body.
+    .use() method to mount middleware to the route path.
+
 - [ ] Describe Middleware?
+
+    Middleware are functions that are invoked between a request and responses.
 
 - [ ] Describe a Resource?
 
+    A resource is persisted data, usually stored in a database
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+    Returning the response object will verify that a request was received but it is best practice to send a status code within the response object, to help clients know how the request was handled.
+
 - [ ] How can we partition our application into sub-applications?
+
+    By using the Express Router object.
 
 ## Project Setup
 
