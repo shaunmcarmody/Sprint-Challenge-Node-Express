@@ -23,7 +23,7 @@ router
         async (req, res) => {
             const project = req.body;
             try {
-                const resource = await dbinsert(project);
+                const resource = await db.insert(project);
                 res.status(201).json(resource);
             } catch (err) {
                 res.status(500).json({ error: "Error inserting project" });
